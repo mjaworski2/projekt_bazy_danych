@@ -1,0 +1,8 @@
+1. Stworzyc baze danych db_proj_borek_jaworski
+    psql -U postgres
+    create database db_proj_borek_jaworski; 
+2. Stworzyc uzytkownika
+    create user projekt with password 'projekt'; 
+3.  Zaladowac dumpa do bazy danych db_proj_borek_jaworski
+    psql -U postgres db_proj_borek_jaworski < db_projekt_borek_jaworski.sql
+    
