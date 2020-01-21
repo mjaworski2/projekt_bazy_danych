@@ -81,18 +81,17 @@ ALTER TABLE public.zamowienie OWNER TO postgres;
 CREATE VIEW public.availablebooks AS
  SELECT id_ksiazka,
     ksiazka.id_kategoria,
-    ksiazka.isbn,
     ksiazka.tytul,
     ksiazka.autor,
     ksiazka.wydawnictwo,
     ksiazka.rok,
-    zamowienie.id_zamowienie,
-    zamowienie.id_czytelnik,
-    zamowienie.data_odbioru,
-    zamowienie.data_zwrotu
+    ksiazka.isbn
    FROM (public.ksiazka
      FULL JOIN public.zamowienie USING (id_ksiazka))
-  WHERE (COALESCE(zamowienie.data_zwrotu, '1970-01-01'::date) < CURRENT_DATE);
+  GROUP BY id_ksiazka, ksiazka.id_kategoria, ksiazka.tytul, ksiazka.autor, ksiazka.wydawnictwo, ksiazka.rok, ksiazka.isbn
+ HAVING (COALESCE(max(( SELECT z.data_zwrotu
+           FROM public.zamowienie z
+          WHERE (z.id_ksiazka = ksiazka.id_ksiazka))), '1970-01-01'::date) < CURRENT_DATE);
 
 
 ALTER TABLE public.availablebooks OWNER TO postgres;
