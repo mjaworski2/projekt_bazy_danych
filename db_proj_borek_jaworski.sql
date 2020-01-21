@@ -16,9 +16,86 @@ SET xmloption = content;
 SET client_min_messages = warning;
 SET row_security = off;
 
+--
+-- Name: check_if_lended(); Type: FUNCTION; Schema: public; Owner: postgres
+--
+
+CREATE FUNCTION public.check_if_lended() RETURNS trigger
+    LANGUAGE plpgsql
+    AS $$
+begin   
+IF NEW.id_ksiazka not in (select id_ksiazka from zamowienie where data_zwrotu<current_date) THEN
+     return NEW;
+ELSE
+    raise notice 'Ksiazka juz wypozyczona!';
+    return NULL;
+END IF;
+end;
+$$;
+
+
+ALTER FUNCTION public.check_if_lended() OWNER TO postgres;
+
 SET default_tablespace = '';
 
 SET default_table_access_method = heap;
+
+--
+-- Name: ksiazka; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.ksiazka (
+    id_ksiazka integer NOT NULL,
+    id_kategoria integer,
+    isbn character(13) NOT NULL,
+    tytul character varying(64) NOT NULL,
+    autor character varying(64) NOT NULL,
+    wydawnictwo character varying(64) DEFAULT 'nieznane'::character varying,
+    rok character(4) NOT NULL
+);
+
+
+ALTER TABLE public.ksiazka OWNER TO postgres;
+
+--
+-- Name: zamowienie; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE public.zamowienie (
+    id_zamowienie integer NOT NULL,
+    id_czytelnik integer,
+    id_ksiazka integer,
+    data_odbioru date,
+    data_zwrotu date,
+    CONSTRAINT zamowienie_check CHECK ((data_zwrotu > data_odbioru)),
+    CONSTRAINT zamowienie_data_odbioru_check CHECK ((data_odbioru > '2019-01-01'::date))
+);
+
+
+ALTER TABLE public.zamowienie OWNER TO postgres;
+
+--
+-- Name: availablebooks; Type: VIEW; Schema: public; Owner: postgres
+--
+
+CREATE VIEW public.availablebooks AS
+ SELECT id_ksiazka,
+    ksiazka.id_kategoria,
+    ksiazka.isbn,
+    ksiazka.tytul,
+    ksiazka.autor,
+    ksiazka.wydawnictwo,
+    ksiazka.rok,
+    zamowienie.id_zamowienie,
+    zamowienie.id_czytelnik,
+    zamowienie.data_odbioru,
+    zamowienie.data_zwrotu
+   FROM (public.ksiazka
+     FULL JOIN public.zamowienie USING (id_ksiazka))
+  WHERE (COALESCE(zamowienie.data_zwrotu, '1970-01-01'::date) < CURRENT_DATE);
+
+
+ALTER TABLE public.availablebooks OWNER TO postgres;
 
 --
 -- Name: czytelnik; Type: TABLE; Schema: public; Owner: postgres
@@ -92,23 +169,6 @@ ALTER SEQUENCE public.kategorie_id_kategoria_seq OWNED BY public.kategorie.id_ka
 
 
 --
--- Name: ksiazka; Type: TABLE; Schema: public; Owner: postgres
---
-
-CREATE TABLE public.ksiazka (
-    id_ksiazka integer NOT NULL,
-    id_kategoria integer,
-    isbn character(13) NOT NULL,
-    tytul character varying(64) NOT NULL,
-    autor character varying(64) NOT NULL,
-    wydawnictwo character varying(64) DEFAULT 'nieznane'::character varying,
-    rok character(4) NOT NULL
-);
-
-
-ALTER TABLE public.ksiazka OWNER TO postgres;
-
---
 -- Name: ksiazka_id_ksiazka_seq; Type: SEQUENCE; Schema: public; Owner: postgres
 --
 
@@ -129,23 +189,6 @@ ALTER TABLE public.ksiazka_id_ksiazka_seq OWNER TO postgres;
 
 ALTER SEQUENCE public.ksiazka_id_ksiazka_seq OWNED BY public.ksiazka.id_ksiazka;
 
-
---
--- Name: zamowienie; Type: TABLE; Schema: public; Owner: postgres
---
-
-CREATE TABLE public.zamowienie (
-    id_zamowienie integer NOT NULL,
-    id_czytelnik integer,
-    id_ksiazka integer,
-    data_odbioru date,
-    data_zwrotu date,
-    CONSTRAINT zamowienie_check CHECK ((data_zwrotu > data_odbioru)),
-    CONSTRAINT zamowienie_data_odbioru_check CHECK ((data_odbioru > '2019-01-01'::date))
-);
-
-
-ALTER TABLE public.zamowienie OWNER TO postgres;
 
 --
 -- Name: zamowienie_id_zamowienie_seq; Type: SEQUENCE; Schema: public; Owner: postgres
@@ -314,7 +357,7 @@ SELECT pg_catalog.setval('public.ksiazka_id_ksiazka_seq', 34, true);
 -- Name: zamowienie_id_zamowienie_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.zamowienie_id_zamowienie_seq', 1, false);
+SELECT pg_catalog.setval('public.zamowienie_id_zamowienie_seq', 3, true);
 
 
 --
@@ -350,6 +393,13 @@ ALTER TABLE ONLY public.zamowienie
 
 
 --
+-- Name: zamowienie check_if_lended_t; Type: TRIGGER; Schema: public; Owner: postgres
+--
+
+CREATE TRIGGER check_if_lended_t BEFORE INSERT ON public.zamowienie FOR EACH ROW EXECUTE FUNCTION public.check_if_lended();
+
+
+--
 -- Name: ksiazka ksiazka_id_kategoria_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -374,20 +424,6 @@ ALTER TABLE ONLY public.zamowienie
 
 
 --
--- Name: TABLE czytelnik; Type: ACL; Schema: public; Owner: postgres
---
-
-GRANT SELECT,INSERT,DELETE,UPDATE ON TABLE public.czytelnik TO projekt;
-
-
---
--- Name: TABLE kategorie; Type: ACL; Schema: public; Owner: postgres
---
-
-GRANT SELECT,INSERT,DELETE,UPDATE ON TABLE public.kategorie TO projekt;
-
-
---
 -- Name: TABLE ksiazka; Type: ACL; Schema: public; Owner: postgres
 --
 
@@ -399,6 +435,55 @@ GRANT SELECT,INSERT,DELETE,UPDATE ON TABLE public.ksiazka TO projekt;
 --
 
 GRANT SELECT,INSERT,DELETE,UPDATE ON TABLE public.zamowienie TO projekt;
+
+
+--
+-- Name: TABLE availablebooks; Type: ACL; Schema: public; Owner: postgres
+--
+
+GRANT SELECT ON TABLE public.availablebooks TO projekt;
+
+
+--
+-- Name: TABLE czytelnik; Type: ACL; Schema: public; Owner: postgres
+--
+
+GRANT SELECT,INSERT,DELETE,UPDATE ON TABLE public.czytelnik TO projekt;
+
+
+--
+-- Name: SEQUENCE czytelnik_id_czytelnik_seq; Type: ACL; Schema: public; Owner: postgres
+--
+
+GRANT ALL ON SEQUENCE public.czytelnik_id_czytelnik_seq TO projekt;
+
+
+--
+-- Name: TABLE kategorie; Type: ACL; Schema: public; Owner: postgres
+--
+
+GRANT SELECT,INSERT,DELETE,UPDATE ON TABLE public.kategorie TO projekt;
+
+
+--
+-- Name: SEQUENCE kategorie_id_kategoria_seq; Type: ACL; Schema: public; Owner: postgres
+--
+
+GRANT ALL ON SEQUENCE public.kategorie_id_kategoria_seq TO projekt;
+
+
+--
+-- Name: SEQUENCE ksiazka_id_ksiazka_seq; Type: ACL; Schema: public; Owner: postgres
+--
+
+GRANT ALL ON SEQUENCE public.ksiazka_id_ksiazka_seq TO projekt;
+
+
+--
+-- Name: SEQUENCE zamowienie_id_zamowienie_seq; Type: ACL; Schema: public; Owner: postgres
+--
+
+GRANT ALL ON SEQUENCE public.zamowienie_id_zamowienie_seq TO projekt;
 
 
 --
