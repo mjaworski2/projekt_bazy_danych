@@ -5,7 +5,7 @@ function getHeader()
     <html>
 
     <head>
-        <title>Library</title>
+        <title>Biblioteka</title>
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     </head>
 
@@ -15,10 +15,10 @@ function getHeader()
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav mr-auto">
                     <li class="nav-item">
-                        <a class="nav-link" href="./books.php">Books</a>
+                        <a class="nav-link" href="./books.php">Ksiażki</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="./search.php">Search</a>
+                        <a class="nav-link" href="./search.php">Szukaj</a>
                     </li>
                 </ul>
             </div>
@@ -74,6 +74,9 @@ function getStyles()
             margin-left: 2em;
             margin-top: 2em;
             margin-right: 2em;
+        }
+        .links{
+            padding-top: 0.5em;
         }
 
     </style>

@@ -16,11 +16,11 @@ function displayBooks($result, $pdo){
                     </div>
                     <div class="col-sm-3 bookLend">
                         <?php
-                        $ksiazkaID = $pdo->query("SELECT id_ksiazka FROM ksiazka WHERE isbn = '" . $book['isbn'] . "' LIMIT 1")->fetch();
+                        $ksiazkaID = $pdo->query("SELECT id_ksiazka FROM availableBooks  WHERE isbn = '" . $book['isbn'] . "' LIMIT 1")->fetch();
                         ?>
                         <a class="btn btn-outline-success btn-lg" href="<?php
                                 echo "./Lend.php?tytul=" . $book['tytul'] . "&autor=" . $book['autor'] . "&isbn=" . $book['isbn'] .
-                                        "&id_ksiazka=" . $ksiazkaID['id_ksiazka']; ?>">Lend</a>
+                                        "&id_ksiazka=" . $ksiazkaID['id_ksiazka']; ?>">Wypożycz</a>
                     </div>
                 </div>
             </div>

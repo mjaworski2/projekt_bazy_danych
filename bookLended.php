@@ -1,24 +1,19 @@
 <?php include_once('templates.php') ?>
-<?php include_once('connect.php') ?>
 <?php
+getStyles();
 getHeader();
-
-$czytelnikID = substr($_POST['id_czytelnik'], 0, 1);
-$ksiazkaID = $_POST['id_ksiazka'];
-$odbior = $_POST['data_wypozyczenia'];
-$zwrot = $_POST['data_zwrotu'];
-
-
-if ($odbior < $zwrot) {
-    $lendBook = "INSERT INTO zamowienie (id_czytelnik, id_ksiazka, data_odbioru, data_zwrotu) VALUES ('" . $czytelnikID . "', '" . $ksiazkaID . "', '"
-        . $odbior . "', '" . $zwrot . "')";
-    $insert = $pdo->query($lendBook);
-    echo $insert;
-} else {
 ?>
-    <h1>Niepoprawne daty</h1>
+<div class="align-middle main">
+    <div class="d-flex justify-content-center">
+        <h1>Książka wypożyczona!</h1>
+    </div>
+    <div class="d-flex justify-content-center">
+        <a href="./books.php" class="links"> Wróć do dostępnych książek</a>
+    </div>
+    <div class="d-flex justify-content-center">
+        <a href="./orders.php" class="links"> Przeglądaj zamówenia</a>
+    </div>
+</div>
 <?php
-}
-
 getFooter();
 ?>

@@ -6,10 +6,12 @@
     ?> <div class="container-fluid">
         <div class="main">
             <?php
-            $allBooks = 'SELECT tytul, autor, rok, nazwa, wydawnictwo, isbn, count(tytul) as "ilosc" from ksiazka JOIN kategorie USING(id_kategoria) GROUP BY tytul, autor, rok, nazwa, wydawnictwo, isbn, 
-            ksiazka.id_kategoria, kategorie.id_kategoria ORDER BY tytul';
+            $allBooks = 'SELECT tytul, autor, rok, nazwa, wydawnictwo, isbn, count(tytul) as ilosc from availableBooks 
+            JOIN kategorie USING(id_kategoria) GROUP BY tytul, autor, rok, nazwa, wydawnictwo, isbn, 
+            availableBooks.id_kategoria, kategorie.id_kategoria ORDER BY tytul';
+            //$allBooks = 'SELECT * FROM availableBooks';
+            //echo $allBooks;
             $result = $pdo->query($allBooks);
-            //$result = [['tytul' => 'Tytuł', 'autor' => 'Jakub Tkacz', 'rok' => '1998']];
             displayBooks($result, $pdo);
             ?>
         </div>

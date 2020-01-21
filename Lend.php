@@ -45,11 +45,11 @@ getHeader();
                 </div>
                 <div class="form-group col-md-3">
                     <label>Data wypożyczenia</label>
-                    <input class="form-control" type="date" name="data_wypozyczenia" required>
+                    <input class="form-control" type="date" name="data_wypozyczenia" required value="<?php echo date("Y-m-d") ?>">
                 </div>
                 <div class="form-group col-md-3">
                     <label>Data zwrotu</label>
-                    <input class="form-control" type="date" name="data_zwrotu" required>
+                    <input class="form-control" type="date" name="data_zwrotu" required value="<?php echo date("Y-m-d", strtotime("+1 month")) ?>">
                 </div>
             </div>
             <div class="row">

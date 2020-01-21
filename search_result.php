@@ -9,7 +9,7 @@
     ?> <div class="container-fluid">
         <div class="main">
             <?php
-            $searchedBooks = 'SELECT tytul, autor, rok, nazwa, wydawnictwo, isbn, count (tytul) as "ilosc" FROM ksiazka JOIN kategorie USING(id_kategoria)';
+            $searchedBooks = 'SELECT tytul, autor, rok, nazwa, wydawnictwo, isbn, count (tytul) as "ilosc" FROM availableBooks JOIN kategorie USING(id_kategoria)';
 
             $firstCondition = true;
 
@@ -56,9 +56,9 @@
                 } else
                     $searchedBooks .= " AND isbn='" . $_GET["isbn"] . "'";
 
-            //$result = [['tytul' => 'Tytuł', 'autor' => 'Jakub Tkacz', 'rok' => '1998'], ['tytul' => 'Tytuł', 'autor' => 'Jakub Tkacz', 'rok' => '1998']];
             $searchedBooks .= ' GROUP BY tytul, autor, rok, nazwa, wydawnictwo, isbn, 
-            ksiazka.id_kategoria, kategorie.id_kategoria ORDER BY tytul';
+            availableBooks.id_kategoria, kategorie.id_kategoria ORDER BY tytul';
+            //echo $searchedBooks;
             $result = $pdo->query($searchedBooks);
             if (is_null($result)) { ?>
                 <h1><?php echo ("Brak rezultatów"); ?></h1>
