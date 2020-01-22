@@ -20,29 +20,40 @@ function getHeader()
                     <li class="nav-item">
                         <a class="nav-link" href="./search.php">Szukaj</a>
                     </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="./readers.php">Czytelnicy</a>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            Zamówienia
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                            <a class="dropdown-item" href="./currentOrders.php">Aktualne</a>
+                            <a class="dropdown-item" href="./pastOrders.php">Historia</a>
                 </ul>
             </div>
         </nav>
     <?php
 }
 
-function getFooter(){
+function getFooter()
+{
     ?>
-    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
-</body>
+        <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+    </body>
 
-</html>
+    </html>
 <?php
 }
-    ?>
+?>
 
 <?php
 function getStyles()
 {
 ?>
-<style>
+    <style>
         .row .basicInfo,
         .bookLend {
             margin-bottom: 2em;
@@ -50,11 +61,13 @@ function getStyles()
             padding-bottom: 0;
         }
 
-        .row .bookLend {
+        .row .bookLend,
+        .readerDelete {
             align-self: center;
         }
 
-        .bookTitle {
+        .bookTitle,
+        .names {
             font-size: 140%;
         }
 
@@ -67,18 +80,29 @@ function getStyles()
             color: #555;
         }
 
-        .bookAdditionalInfo {
-        }
+        .bookAdditionalInfo,
+        .readerAdditionalInfo {}
 
         .main {
             margin-left: 2em;
             margin-top: 2em;
             margin-right: 2em;
         }
-        .links{
+
+        .links {
             padding-top: 0.5em;
+            font-size: 120%;
+            color: #555;
         }
 
+        .dates {
+            align-self: center;
+            padding: 0.5em;
+            color: #555;
+        }
+        .add{
+            margin-bottom: 2em;
+        }
     </style>
 <?php
 }

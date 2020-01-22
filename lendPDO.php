@@ -1,6 +1,8 @@
 <?php include_once('templates.php') ?>
 <?php include_once('connect.php') ?>
+<?php include_once('functions.php') ?>
 <?php
+getStyles();
 getHeader();
 
 $czytelnikID = substr($_POST['id_czytelnik'], 0, 1);
@@ -18,7 +20,7 @@ if ($odbior < $zwrot) {
         echo "Error while inserting to db";
         die();
     } else {
-        
+        successfulAction("Książka wypożyczona!");
     };
 } else {
 ?>

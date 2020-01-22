@@ -65,7 +65,7 @@
                 brak
             <?php
             } else {
-                displayBooks($result, $pdo);
+                displayBooks($result, $pdo, true);
             }
             ?>
         </div>

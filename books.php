@@ -12,7 +12,7 @@
             //$allBooks = 'SELECT * FROM availableBooks';
             //echo $allBooks;
             $result = $pdo->query($allBooks);
-            displayBooks($result, $pdo);
+            displayBooks($result, $pdo, true);
             ?>
         </div>
     </div>
