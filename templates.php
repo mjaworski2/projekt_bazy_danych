@@ -11,7 +11,7 @@ function getHeader()
 
     <body>
         <nav class="navbar navbar-expand-lg navbar-light bg-light">
-            <a class="navbar-brand" href="./">YourLibrary</a>
+            <a class="navbar-brand" href="./">Biblioteka</a>
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav mr-auto">
                     <li class="nav-item">
@@ -62,7 +62,8 @@ function getStyles()
         }
 
         .row .bookLend,
-        .readerDelete {
+        .readerDelete,
+        .bookReturn {
             align-self: center;
         }
 
@@ -100,8 +101,16 @@ function getStyles()
             padding: 0.5em;
             color: #555;
         }
-        .add{
+
+        .add {
             margin-bottom: 2em;
+        }
+
+        .welcomePage{
+            text-align: center;
+            vertical-align: middle;
+            color: #555;
+            margin-top: 10%;
         }
     </style>
 <?php

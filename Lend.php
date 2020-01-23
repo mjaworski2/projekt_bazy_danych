@@ -6,7 +6,7 @@ getHeader();
 ?>
 <div class="container-fluid">
     <div class="main">
-        <form action="lendPDO.php" method="POST">
+        <form action="bookLended.php" method="POST">
             <div class="row">
                 <div class="form-group col-12">
                     <label>Tytuł</label>

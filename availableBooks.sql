@@ -6,30 +6,31 @@ SELECT
     tytul,
     autor,
     wydawnictwo,
-    rok, 
+    rok,
     isbn
 FROM
     ksiazka FULL
     JOIN zamowienie USING(id_ksiazka)
+WHERE
+    COALESCE(
+        (
+            SELECT
+                czy_zwrocona
+            FROM
+                zamowienie z
+            WHERE
+                z.id_ksiazka = ksiazka.id_ksiazka
+            ORDER BY
+                data_zwrotu DESC
+            LIMIT
+                1
+        ), true
+    ) = true
 GROUP BY
     id_ksiazka,
     id_kategoria,
     tytul,
     autor,
     wydawnictwo,
-    rok, 
-    isbn
-HAVING
-    COALESCE(
-        MAX(
-            (
-                SELECT
-                    data_zwrotu
-                from
-                    zamowienie z
-                WHERE
-                    z.id_ksiazka = ksiazka.id_ksiazka
-            )
-        ),
-        '1970-01-01' :: date
-    ) <= current_date :: date;
+    rok,
+    isbn;

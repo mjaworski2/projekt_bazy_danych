@@ -14,7 +14,12 @@ $result = $pdo->query($allReadersBooks);
 <div class="container-fluid">
     <div class="main">
         <?php
-        displayBooks($result, $pdo, false);
+        if ($result->rowCount() > 0) {
+            displayBooks($result, $pdo, false);
+        } else { ?>
+            <h1>Brak wypożyczonych książek.</h1>
+        <?php
+        }
         ?>
     </div>
 </div>
