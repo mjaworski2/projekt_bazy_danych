@@ -109,10 +109,12 @@ CREATE VIEW public.availablebooks AS
     ksiazka.isbn
    FROM (public.ksiazka
      FULL JOIN public.zamowienie USING (id_ksiazka))
-  GROUP BY id_ksiazka, ksiazka.id_kategoria, ksiazka.tytul, ksiazka.autor, ksiazka.wydawnictwo, ksiazka.rok, ksiazka.isbn
- HAVING (COALESCE(max(( SELECT z.data_zwrotu
+  WHERE (COALESCE(( SELECT z.czy_zwrocona
            FROM public.zamowienie z
-          WHERE (z.id_ksiazka = ksiazka.id_ksiazka))), '1970-01-01'::date) <= CURRENT_DATE);
+          WHERE (z.id_ksiazka = ksiazka.id_ksiazka)
+          ORDER BY z.data_zwrotu DESC
+         LIMIT 1), true) = true)
+  GROUP BY id_ksiazka, ksiazka.id_kategoria, ksiazka.tytul, ksiazka.autor, ksiazka.wydawnictwo, ksiazka.rok, ksiazka.isbn;
 
 
 ALTER TABLE public.availablebooks OWNER TO postgres;
@@ -266,7 +268,6 @@ ALTER TABLE ONLY public.zamowienie ALTER COLUMN id_zamowienie SET DEFAULT nextva
 
 COPY public.czytelnik (id_czytelnik, imie, nazwisko, telefon, email) FROM stdin;
 1	Barbara	Kiszewska	677751870	barbara1@onet.pl
-2	Jadwiga	Bilecka	812785461	jasiabil@gmail.com
 3	Ewa	Masztaler	689190910	ewamasz@agh.edu.pl
 4	Barbara	Manczynska	164930028	maczynska@interia.pl
 5	Ewa	Niemota	462740297	efkaa123@onet.pl
@@ -348,7 +349,6 @@ COPY public.ksiazka (id_ksiazka, id_kategoria, isbn, tytul, autor, wydawnictwo, 
 --
 
 COPY public.zamowienie (id_zamowienie, id_czytelnik, id_ksiazka, data_odbioru, data_zwrotu, czy_zwrocona) FROM stdin;
-17	2	11	2020-01-23	2020-02-23	f
 \.
 
 
@@ -377,7 +377,7 @@ SELECT pg_catalog.setval('public.ksiazka_id_ksiazka_seq', 34, true);
 -- Name: zamowienie_id_zamowienie_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.zamowienie_id_zamowienie_seq', 17, true);
+SELECT pg_catalog.setval('public.zamowienie_id_zamowienie_seq', 21, true);
 
 
 --

@@ -34,11 +34,27 @@ getHeader();
 
                 <div class="form-group col-sm-3">
                     <label>Rok wydania</label>
-                    <input type="number" class="form-control" max="2020" min="1800" placeholder="rok" name="rok">
+                    <select multiple class="form-control" name="rok">
+                        <?php
+                        $allYears = 'SELECT rok FROM ksiazka GROUP BY rok ORDER BY rok DESC';
+                        $resultYears = $pdo->query($allYears);
+                        foreach ($resultYears as $year) {
+                        ?>
+                            <option><?php echo $year['rok'] ?></option>
+                        <?php } ?>
+                    </select>
                 </div>
                 <div class="form-group col-sm-3">
                     <label for="">Wydawnictwo</label>
-                    <input type="text" class="form-control" placeholder="Wydawnictwo" name="wydawnictwo">
+                    <select multiple class="form-control" name="wydawnictwo">
+                        <?php
+                        $allPublishers = 'SELECT wydawnictwo FROM ksiazka GROUP BY wydawnictwo ORDER BY wydawnictwo';
+                        $resultPublishers = $pdo->query($allPublishers);
+                        foreach ($resultPublishers as $publisher) {
+                        ?>
+                            <option><?php echo $publisher['wydawnictwo'] ?></option>
+                        <?php } ?>
+                    </select>
                 </div>
                 <div class="form-group col-sm-3">
                     <label>Numer ISBN</label>

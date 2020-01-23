@@ -60,12 +60,12 @@
             availableBooks.id_kategoria, kategorie.id_kategoria ORDER BY tytul';
             //echo $searchedBooks;
             $result = $pdo->query($searchedBooks);
-            if (is_null($result)) { ?>
-                <h1><?php echo ("Brak rezultatów"); ?></h1>
-                brak
-            <?php
-            } else {
+            if ($result->rowCount() > 0) {
                 displayBooks($result, $pdo, true);
+            } else {
+                ?>
+                <h1>Brak rezultatów spełniających podane kryteria.</h1>
+                <?php
             }
             ?>
         </div>
