@@ -44,11 +44,11 @@ CREATE FUNCTION public.check_if_reader_has_book() RETURNS trigger
     LANGUAGE plpgsql
     AS $$
 begin
-    IF NEW.id_czytelnik not in (SELECT id_czytelnik FROM zamowienie WHERE czy_zwrocona IS FALSE) THEN
-    return NEW;
-    ELSE
-    raise notice 'Czytelnik ma wypozyczona ksiazke!';
-    return NULL;
+IF OLD.id_czytelnik not in (SELECT id_czytelnik FROM zamowienie WHERE czy_zwrocona IS FALSE) THEN     
+return OLD;
+   ELSE           
+   raise notice 'Uzytkownik ma wypozyczona ksiazke!';
+   return NULL;
     END IF;
 end;
 $$;
@@ -285,8 +285,6 @@ COPY public.czytelnik (id_czytelnik, imie, nazwisko, telefon, email) FROM stdin;
 18	Wiktor	Krupicki	833306801	wikotr999@agh.edu.pl
 19	Wiktor	Labuda	598744371	wikilab@onet.pl
 20	Andrzej	Twarnowski	729513752	atwar@interia.pl
-21	Zbigniew	zeligowski	806136827	zibi666@gmail.com
-22	Michal	Jaworski	brak	michal@jaworski.pl
 \.
 
 
@@ -350,7 +348,7 @@ COPY public.ksiazka (id_ksiazka, id_kategoria, isbn, tytul, autor, wydawnictwo, 
 --
 
 COPY public.zamowienie (id_zamowienie, id_czytelnik, id_ksiazka, data_odbioru, data_zwrotu, czy_zwrocona) FROM stdin;
-11	1	11	2020-01-23	2020-01-23	t
+17	2	11	2020-01-23	2020-02-23	f
 \.
 
 
@@ -379,7 +377,7 @@ SELECT pg_catalog.setval('public.ksiazka_id_ksiazka_seq', 34, true);
 -- Name: zamowienie_id_zamowienie_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.zamowienie_id_zamowienie_seq', 11, true);
+SELECT pg_catalog.setval('public.zamowienie_id_zamowienie_seq', 17, true);
 
 
 --
