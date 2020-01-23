@@ -32,4 +32,8 @@ HAVING
             )
         ),
         '1970-01-01' :: date
+<<<<<<< HEAD
     ) < current_date :: date;
+=======
+    ) <= current_date :: date;
+>>>>>>> 72a73516af7e7dab54fac30a01f98c7f8b6e663f

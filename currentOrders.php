@@ -4,7 +4,7 @@
 getStyles();
 getHeader();
 
-$allOrders = "SELECT * FROM zamowienie JOIN ksiazka USING(id_ksiazka) JOIN czytelnik USING(id_czytelnik) WHERE data_zwrotu > CURRENT_DATE::date";
+$allOrders = "SELECT * FROM zamowienie JOIN ksiazka USING(id_ksiazka) JOIN czytelnik USING(id_czytelnik) WHERE czy_zwrocona is false";
 $result = $pdo->query($allOrders);
 ?>
 <div class="container-fluid">
@@ -29,6 +29,9 @@ $result = $pdo->query($allOrders);
                 <div class="bookTitle">Wypożyczone:</div>
                 <div class="bookAdditionalInfo">Od: <?php echo $order['data_odbioru'] ?></div>
                 <div class="bookAdditionalInfo">Do: <?php echo $order['data_zwrotu'] ?></div>
+            </div>
+             <div class="col-2 basicInfo">
+                <a class="btn btn-outline-danger btn-lg" href="./giveBackBook.php?id_zamowienie=<?php echo $order['id_zamowienie'] ?>">Oddaj ksiazke</a>
             </div>
         </div>
     <?php } ?>
