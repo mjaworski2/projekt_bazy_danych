@@ -30,7 +30,7 @@ $result = $pdo->query($allOrders);
                 <div class="bookAdditionalInfo">Od: <?php echo $order['data_odbioru'] ?></div>
                 <div class="bookAdditionalInfo">Do: <?php echo $order['data_zwrotu'] ?></div>
             </div>
-             <div class="col-2 basicInfo">
+             <div class="col-2 basicInfo bookReturn">
                 <a class="btn btn-outline-danger btn-lg" href="./giveBackBook.php?id_zamowienie=<?php echo $order['id_zamowienie'] ?>">Oddaj ksiazke</a>
             </div>
         </div>

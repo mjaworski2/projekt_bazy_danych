@@ -62,7 +62,8 @@ function getStyles()
         }
 
         .row .bookLend,
-        .readerDelete {
+        .readerDelete,
+        .bookReturn {
             align-self: center;
         }
 
@@ -100,7 +101,8 @@ function getStyles()
             padding: 0.5em;
             color: #555;
         }
-        .add{
+
+        .add {
             margin-bottom: 2em;
         }
     </style>

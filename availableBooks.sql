@@ -6,7 +6,7 @@ SELECT
     tytul,
     autor,
     wydawnictwo,
-    rok, 
+    rok,
     isbn
 FROM
     ksiazka FULL
@@ -17,7 +17,7 @@ GROUP BY
     tytul,
     autor,
     wydawnictwo,
-    rok, 
+    rok,
     isbn
 HAVING
     COALESCE(
@@ -29,11 +29,10 @@ HAVING
                     zamowienie z
                 WHERE
                     z.id_ksiazka = ksiazka.id_ksiazka
+                ORDER BY
+                    data_zwrotu DESC
+                LIMIT
+                    1
             )
-        ),
-        '1970-01-01' :: date
-<<<<<<< HEAD
-    ) < current_date :: date;
-=======
+        ), '1970-01-01' :: date
     ) <= current_date :: date;
->>>>>>> 72a73516af7e7dab54fac30a01f98c7f8b6e663f
