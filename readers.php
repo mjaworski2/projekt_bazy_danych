@@ -8,7 +8,7 @@ getHeader();
     <div class="main">
         <a href="./addReader.php" type="button" class="btn btn-secondary btn-lg active add">Dodaj nowego czytelnika</a>
         <?php
-        $allReaders = 'SELECT * FROM czytelnik';
+        $allReaders = 'SELECT * FROM czytelnik ORDER BY nazwisko';
         //$allBooks = 'SELECT * FROM availableBooks';
         //echo $allBooks;
         $result = $pdo->query($allReaders);
@@ -17,7 +17,7 @@ getHeader();
 
             <div class="book">
                 <div class="row">
-                    <div class="col-sm-6 basicInfo">
+                    <div class="col-sm-4 basicInfo">
                         <div class="names"><?php echo $reader['imie'] . " " . $reader['nazwisko'] ?></div>
                         <div class="readerAdditionalInfo"><?php echo $reader['email'] ?></div>
                         <div class="readerAdditionalInfo"><?php echo $reader['telefon'] ?></div>

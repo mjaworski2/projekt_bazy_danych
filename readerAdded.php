@@ -12,7 +12,6 @@ $telefon = $_POST['telefon'];
 
 $addReader = "INSERT INTO czytelnik (imie, nazwisko, telefon, email) VALUES ('" . $imie . "', '" . $nazwisko . "', '"
     . $email . "', '" . $telefon . "')";
-echo $addReader;
 if ($pdo->exec($addReader) === false) {
     print_r($pdo->errorInfo());
     echo "Error while inserting to db";

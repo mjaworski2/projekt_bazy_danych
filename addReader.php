@@ -30,7 +30,7 @@ getHeader();
 
                 <div class="form-group col-sm-3">
                     <label>Telefon</label>
-                    <input type="tel" class="form-control" placeholder="telefon" name="telefon" required>
+                    <input type="tel" minlength="9" maxlength="9" pattern="[0-9]{9}" class="form-control" placeholder="telefon" name="telefon" required>
                 </div>
                 
             </div>

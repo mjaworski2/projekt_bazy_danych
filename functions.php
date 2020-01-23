@@ -64,7 +64,7 @@ function successfulAction($meassage)
             <h1><?php echo $meassage ?></h1>
         </div>
         <div class="d-flex justify-content-center">
-            <a href="./books.php" class="links">Wróć do dostępnych książek</a>
+            <a href="./books.php" class="links">Dostępne książki</a>
         </div>
         <div class="d-flex justify-content-center">
             <a href="./currentOrders.php" class="links">Przeglądaj zamówenia</a>
