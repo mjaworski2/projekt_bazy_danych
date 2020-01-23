@@ -4,7 +4,7 @@
 getStyles();
 getHeader();
 
-$allOrders = "SELECT * FROM zamowienie JOIN ksiazka USING(id_ksiazka) JOIN czytelnik USING(id_czytelnik) WHERE data_zwrotu < CURRENT_DATE::date";
+$allOrders = "SELECT * FROM zamowienie JOIN ksiazka USING(id_ksiazka) JOIN czytelnik USING(id_czytelnik) WHERE czy_zwrocona is true";
 $result = $pdo->query($allOrders);
 ?>
 <div class="container-fluid">

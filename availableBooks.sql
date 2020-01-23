@@ -32,4 +32,4 @@ HAVING
             )
         ),
         '1970-01-01' :: date
-    ) < current_date :: date;
+    ) <= current_date :: date;

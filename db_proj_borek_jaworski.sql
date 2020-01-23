@@ -88,7 +88,7 @@ CREATE TABLE public.zamowienie (
     data_odbioru date,
     data_zwrotu date,
     czy_zwrocona boolean DEFAULT false,
-    CONSTRAINT zamowienie_check CHECK ((data_zwrotu > data_odbioru)),
+    CONSTRAINT zamowienie_check CHECK ((data_zwrotu >= data_odbioru)),
     CONSTRAINT zamowienie_data_odbioru_check CHECK ((data_odbioru > '2019-01-01'::date))
 );
 
@@ -112,7 +112,7 @@ CREATE VIEW public.availablebooks AS
   GROUP BY id_ksiazka, ksiazka.id_kategoria, ksiazka.tytul, ksiazka.autor, ksiazka.wydawnictwo, ksiazka.rok, ksiazka.isbn
  HAVING (COALESCE(max(( SELECT z.data_zwrotu
            FROM public.zamowienie z
-          WHERE (z.id_ksiazka = ksiazka.id_ksiazka))), '1970-01-01'::date) < CURRENT_DATE);
+          WHERE (z.id_ksiazka = ksiazka.id_ksiazka))), '1970-01-01'::date) <= CURRENT_DATE);
 
 
 ALTER TABLE public.availablebooks OWNER TO postgres;
@@ -350,6 +350,7 @@ COPY public.ksiazka (id_ksiazka, id_kategoria, isbn, tytul, autor, wydawnictwo, 
 --
 
 COPY public.zamowienie (id_zamowienie, id_czytelnik, id_ksiazka, data_odbioru, data_zwrotu, czy_zwrocona) FROM stdin;
+11	1	11	2020-01-23	2020-01-23	t
 \.
 
 
@@ -378,7 +379,7 @@ SELECT pg_catalog.setval('public.ksiazka_id_ksiazka_seq', 34, true);
 -- Name: zamowienie_id_zamowienie_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public.zamowienie_id_zamowienie_seq', 9, true);
+SELECT pg_catalog.setval('public.zamowienie_id_zamowienie_seq', 11, true);
 
 
 --
